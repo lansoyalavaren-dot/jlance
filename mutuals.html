@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mutuals</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-light: #f5f7fa;
+    --bg-lighter: #e8eef2;
+    --text-heading: #245585;
+    --text-body: #4a5568;
+    --accent-blue-start: #3498db;
+    --accent-blue-end: #1f618d;
+    --shadow-dark: rgba(0,0,0,0.1);
+}
+
+/* Body background */
+body {
+    font-family: 'Georgia', serif;
+    margin: 0; padding: 0;
+    background: linear-gradient(135deg, #dbe6f1, #f5f7fa);
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(135deg, var(--bg-lighter), var(--bg-light));
+    padding: 15px 0;
+    box-shadow: 0 2px 6px var(--shadow-dark);
+    font-family: 'Poppins', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.navbar nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    flex-wrap: wrap;
+}
+.nav-left {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    overflow: hidden;
+    justify-content: center;
+}
+.nav-link {
+    text-decoration: none;
+    color: var(--text-body);
+    font-weight: 600;
+    padding-bottom: 5px;
+    letter-spacing: 1px;
+    transition: color 0.3s, transform 0.3s, border-bottom 0.3s;
+    cursor: pointer;
+}
+.nav-link:hover { 
+    color: var(--text-heading); 
+    transform: scale(1.05);
+}
+.nav-link.active { 
+    color: var(--text-heading); 
+    border-bottom: 2px solid var(--text-heading);
+}
+
+/* Logo */
+.logo-container .logo-image {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Hamburger */
+.hamburger {
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--text-body);
+    transition: color 0.3s ease;
+}
+.hamburger:hover { color: var(--accent-blue-start); }
+
+/* Mutuals container with animated gradient */
+.mutuals-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px 20px;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    
+    /* Animated gradient */
+    background: linear-gradient(-45deg, #ffffff, #e6f0fa, #dbe6f1, #ffffff);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.section-title { 
+    color: var(--text-heading); 
+    font-size: 2.2em; 
+    margin-bottom: 30px; 
+    font-weight: bold;
+}
+
+/* Profiles container */
+.profiles-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    justify-items: center;
+}
+
+/* Mutual card */
+.mutual-card { 
+    border-radius: 8px; 
+    padding: 20px; 
+    text-align: center; 
+    transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+    opacity: 0;
+    transform: translateY(20px);
+    width: 100%;
+    max-width: 250px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.mutual-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.mutual-card:hover { 
+    transform: translateY(-5px) scale(1.03); 
+    box-shadow: 0 10px 30px rgba(255,165,0,0.4), 0 0 40px rgba(255,165,0,0.2); 
+    filter: brightness(1.05);
+}
+
+/* Avatar */
+.mutual-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #ddd;
+    margin: 0 auto 10px;
+    overflow: hidden;
+    border: 4px solid rgb(67, 154, 230); 
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease, transform 0.3s;
+    box-shadow: 0 0 8px rgba(255, 165, 0, 0.6); 
+}
+.mutual-card:hover .mutual-avatar {
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.8); 
+}
+.mutual-avatar img { width:100%; height:100%; object-fit:cover; }
+
+/* Text */
+.mutual-name { font-size:1.2em; color: var(--text-heading); font-weight:600; margin-bottom:8px;}
+.mutual-link { display:inline-block; color: var(--accent-blue-start); text-decoration:none; font-size:0.85em; padding:6px 12px; border:2px solid var(--accent-blue-start); border-radius:5px; transition: background 0.3s, color 0.3s;}
+.mutual-link:hover { background: var(--accent-blue-start); color:#fff; }
+
+/* Responsive */
+@media (max-width:900px) { 
+    .profiles-container { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+}
+@media (max-width:600px) {
+    .mutual-avatar { width: 90px; height: 90px; }
+    .mutual-card { max-width: 200px; }
+}
+@media (max-width:400px) {
+    .mutual-avatar { width: 80px; height: 80px; }
+    .mutual-card { max-width: 180px; }
+}
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <nav>
+    <div class="logo-container">
+      <img src="logo.png.png" alt="Logo" class="logo-image">
+    </div>
+    <div class="nav-left" id="nav-links">
+      <a href="aboutme.html" class="nav-link">ABOUT ME</a>
+      <a href="engagement.html" class="nav-link">ENGAGEMENT</a>
+      <a href="highlights.html" class="nav-link">ALBUM</a>
+      <a href="mutuals.html" class="nav-link active">MUTUALS</a>
+      <a href="contacts.html" class="nav-link">CONTACT</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <i class="fas fa-bars" id="hamburger-icon"></i>
+    </div>
+  </nav>
+</header>
+
+<div class="mutuals-container">
+  <h2 class="section-title">Mutual Friends</h2>
+  <div class="profiles-container">
+    <div class="mutual-card">
+      <div class="mutual-avatar">
+        <img src="shi.png.jpg" alt="Friend 1">
+      </div>
+      <h3 class="mutual-name">Irish Mae Mapa</h3>
+      <a href="https://example.com" target="_blank" class="mutual-link">Visit Website</a>
+    </div>
+    <div class="mutual-card">
+      <div class="mutual-avatar">
+        <img src="nersha.png.jpg" alt="Friend 2">
+      </div>
+      <h3 class="mutual-name">Nersha Marie Beronio</h3>
+      <a href="https://example.com" target="_blank" class="mutual-link">Visit Website</a>
+    </div>
+    <div class="mutual-card">
+      <div class="mutual-avatar">
+        <img src="beng.png.jpg" alt="Friend 3">
+      </div>
+      <h3 class="mutual-name">Gleah Paciente</h3>
+      <a href="https://example.com" target="_blank" class="mutual-link">Visit Website</a>
+    </div>
+    <div class="mutual-card">
+      <div class="mutual-avatar">
+        <img src="apol.png.jpg" alt="Friend 4">
+      </div>
+      <h3 class="mutual-name">Merry Christle Castro</h3>
+      <a href="https://example.com" target="_blank" class="mutual-link">Visit Website</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Hamburger toggle
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+const hamburgerIcon = document.getElementById('hamburger-icon');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+  hamburgerIcon.classList.add('rotate');
+  setTimeout(() => {
+    if(navLinks.classList.contains('show')){
+      hamburgerIcon.classList.remove('fa-bars');
+      hamburgerIcon.classList.add('fa-times');
+    } else {
+      hamburgerIcon.classList.remove('fa-times');
+      hamburgerIcon.classList.add('fa-bars');
+    }
+    hamburgerIcon.classList.remove('rotate');
+  }, 200);
+});
+
+// Navbar active link
+const navLinksArray = document.querySelectorAll('.nav-link');
+navLinksArray.forEach(link => {
+  link.addEventListener('click', () => {
+    navLinksArray.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+// Scroll-triggered fade-in for mutual cards
+const mutualCards = document.querySelectorAll('.mutual-card');
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.top <= (window.innerHeight || document.documentElement.clientHeight) - 100;
+}
+function checkCards() {
+    mutualCards.forEach((card, index) => {
+        if (isInViewport(card) && !card.classList.contains('visible')) {
+            setTimeout(() => {
+                card.classList.add('visible');
+            }, index * 150);
+        }
+    });
+}
+window.addEventListener('scroll', checkCards);
+window.addEventListener('load', checkCards);
+</script>
+
+</body>
+</html>

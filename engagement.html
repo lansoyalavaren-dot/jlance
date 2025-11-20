@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engagement</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-light: #f5f7fa;
+    --bg-lighter: #e8eef2;
+    --text-heading: #245585;
+    --text-body: #4a5568;
+    --accent-blue-start: #3498db;
+    --shadow-light: rgba(0,188,212,0.3);
+    --shadow-dark: rgba(0,0,0,0.1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Georgia', serif;
+    margin: 0; padding: 0;
+    background: linear-gradient(135deg, var(--bg-lighter), var(--bg-light));
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(135deg, var(--bg-lighter), var(--bg-light));
+    padding: 20px 0;
+    box-shadow: 0 2px 6px var(--shadow-dark);
+    font-family: 'Poppins', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.navbar nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex-wrap: wrap;
+}
+.nav-left { display: flex; gap: 30px; flex-wrap: wrap; transition: max-height 0.4s ease, opacity 0.4s ease; overflow: hidden; justify-content: center; }
+.nav-link { text-decoration: none; color: var(--text-body); font-weight: 600; padding-bottom: 5px; letter-spacing: 1px; transition: color 0.3s, transform 0.3s, border-bottom 0.3s; cursor: pointer; }
+.nav-link:hover { color: var(--text-heading); transform: scale(1.05); }
+.nav-link.active { color: var(--text-heading); border-bottom: 2px solid var(--text-heading); }
+
+/* Logo */
+.logo-container .logo-image { width: 90px; height: 90px; object-fit: contain; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); }
+
+/* Hamburger */
+.hamburger { display: none; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 1.5em; cursor: pointer; color: var(--text-body); transition: color 0.3s ease; }
+.hamburger:hover { color: var(--accent-blue-start); }
+.hamburger i { transition: transform 0.4s ease, color 0.3s ease; }
+
+/* Hero Section with Light Blue Gradient and Blur */
+.hero-section {
+    background: linear-gradient(135deg, #e0f0ff, #c0e0ff);
+    position: relative;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    overflow: hidden;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(12px);
+    z-index: 1;
+}
+
+/* Hero Container */
+.hero-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Profile Section */
+.photo-section-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: popIn 0.8s forwards;
+    animation-delay: 0.2s;
+}
+
+.photo-circle { 
+    width: 250px; 
+    height: 250px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    border: 6px solid #fff; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3); 
+    background: linear-gradient(135deg, #6ba3d8, #8fc1e8); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+.photo-circle img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.photo-circle:hover img { transform: scale(1.05); }
+
+/* Dialogue Bubble */
+.profile-dialogue {
+    background: #fff;
+    padding: 12px 18px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-size: 0.95em;
+    color: #245585;
+    max-width: 220px;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    position: relative;
+}
+.profile-dialogue::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+}
+
+/* Pop-in Animation */
+@keyframes popIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(0.8); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+/* Cards Section */
+.cards-section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.buttons-section {
+    display: flex; 
+    flex-direction: column; 
+    gap: 30px;
+    align-items: center;
+}
+
+.engagement-card-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    max-width: 700px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardPopIn 0.6s forwards;
+}
+
+.engagement-card-wrapper:nth-child(1) { animation-delay: 0.4s; }
+.engagement-card-wrapper:nth-child(2) { animation-delay: 0.6s; }
+.engagement-card-wrapper:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes cardPopIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+
+.card-image-outside {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 4px solid #245585;
+    padding: 4px;
+    background: #fff;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+.card-image-outside:hover { transform: scale(1.1); }
+.engagement-card {
+    background:#fff; 
+    border-radius:8px; 
+    border:4px solid orange;
+    padding:20px; 
+    box-shadow:0 4px 12px rgba(0,0,0,0.1); 
+    transition: transform 0.3s, box-shadow 0.3s; 
+    display: flex; 
+    flex-direction: column;  
+    justify-content: center;     
+    flex: 1;
+    text-align: left;
+}
+.engagement-card:hover { 
+    transform: translateY(-5px); 
+    box-shadow:0 6px 20px rgba(0,188,212,0.3); 
+}
+.card-title { font-size: 1.2em; font-weight: 600; margin: 0 0 6px 0; color: var(--text-heading); }
+.card-description { font-size: 0.95em; color: var(--text-body); line-height: 1.4; }
+
+/* Responsive */
+@media (max-width:900px) { 
+    .engagement-card-wrapper { flex-direction: column; align-items: center; gap: 15px; text-align: center; }
+    .card-image-outside { width: 120px; height: 120px; }
+}
+@media (max-width:600px) { 
+    .buttons-section { gap:20px; }
+    .card-image-outside { width: 100px; height: 100px; }
+    .photo-section-wrapper { flex-direction: column; gap: 15px; }
+}
+
+/* Modal / Lightbox */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0);
+    animation: fadeIn 0.4s forwards;
+}
+@keyframes fadeIn { to { background-color: rgba(0,0,0,0.8); } }
+.modal-content { margin: auto; display: block; max-width: 90%; max-height: 80%; border-radius: 12px; animation: popIn 0.4s ease; }
+.modal-close { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; transition: color 0.3s; }
+.modal-close:hover { color: #f1f1f1; }
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <nav>
+    <div class="logo-container">
+      <img src="logo.png.png" alt="Logo" class="logo-image">
+    </div>
+    <div class="nav-left" id="nav-links">
+      <a href="aboutme.html" class="nav-link">ABOUT ME</a>
+      <a href="engagement.html" class="nav-link active">ENGAGEMENT</a>
+      <a href="highlights.html" class="nav-link">ALBUM</a>
+      <a href="mutuals.html" class="nav-link">MUTUALS</a>
+      <a href="contacts.html" class="nav-link">CONTACT</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <i class="fas fa-bars" id="hamburger-icon"></i>
+    </div>
+  </nav>
+</header>
+
+<section class="hero-section">
+  <div class="hero-container">
+    <div class="photo-section-wrapper">
+      <div class="photo-circle">
+        <img src="lans.jpg.jpg" alt="Jerry Lance Profile">
+      </div>
+      <div class="profile-dialogue" id="profileDialogue">
+        Hi!  Welcome, my friends!! 👋
+      </div>
+    </div>
+
+    <!-- Cards Section Container -->
+    <div class="cards-section-container">
+      <div class="cards-container">
+        <div class="buttons-section">
+          <!-- Card 1 -->
+          <div class="engagement-card-wrapper">
+            <img src="officer.jpg.jpg" alt="Card 1" class="card-image-outside">
+            <div class="engagement-card">
+              <div class="card-text">
+                <h3 class="card-title">Student College Organization</h3>
+                <p class="card-description">Becoming a member of the college Organization for three years has changed everything. My confidence and leadership abilities have increased as a result, and I'm thrilled to have had the chance to improve personally. I'm excited to see where my adventure leads me next and am pleased of what I've done!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="engagement-card-wrapper">
+            <img src="pageant.jpg.png" alt="Card 2" class="card-image-outside">
+            <div class="engagement-card">
+              <div class="card-text">
+                <h3 class="card-title">Pageantry</h3>
+                <p class="card-description">I stepped beyond of my comfort zone and joined a pageant! I met amazing people and created priceless experiences  and saw the support that my friends and family give on this journey. I'm pleased of myself for embracing the unknown and taking a risk; it gave me a lot more confidence!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="engagement-card-wrapper">
+            <img src="mc.jpg.jpg" alt="Card 3" class="card-image-outside">
+            <div class="engagement-card">
+              <div class="card-text">
+                <h3 class="card-title">Master Of Ceremony</h3>
+                <p class="card-description">I had a great time serving as our college program's MC for two years! I thoroughly enjoyed the amazing event, which forced me to step outside of my comfort zone. from those who have faith in me and are able to see things that I am unable to. I had the opportunity to meet a lot of amazing people, which truly aided in my own development. I'm glad I took the chance and tried it!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Cards Section Container -->
+
+  </div>
+</section>
+
+<div id="imageModal" class="modal">
+  <span class="modal-close">&times;</span>
+  <img class="modal-content" id="modalImg">
+</div>
+
+<script>
+// Navbar Hamburger
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+const hamburgerIcon = document.getElementById('hamburger-icon');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+  hamburgerIcon.classList.add('rotate');
+  setTimeout(() => {
+    hamburgerIcon.classList.toggle('fa-bars');
+    hamburgerIcon.classList.toggle('fa-times');
+    hamburgerIcon.classList.remove('rotate');
+  }, 200);
+});
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+// Lightbox for cards
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImg");
+const modalClose = document.querySelector(".modal-close");
+document.querySelectorAll(".card-image-outside").forEach(img => {
+    img.addEventListener("click", () => {
+        modal.style.display = "block";
+        modalImg.src = img.src;
+    });
+});
+modalClose.addEventListener("click", () => { modal.style.display = "none"; });
+modal.addEventListener("click", e => { if(e.target === modal) modal.style.display = "none"; });
+
+// Dialogue Messages
+const messages = [
+  "These are my college Experiences👋",
+  "Feel free to explore! check out my gallery😄"
+];
+let index = 0;
+const dialogue = document.getElementById("profileDialogue");
+const photoSection = document.querySelector(".photo-section-wrapper");
+let intervalId;
+function showMessage() {
+    dialogue.style.opacity = 0;
+    setTimeout(() => {
+        dialogue.textContent = messages[index];
+        dialogue.style.opacity = 1;
+        dialogue.style.animation = 'pop 0.4s ease';
+        setTimeout(() => { dialogue.style.animation = ''; }, 400);
+        index = (index + 1) % messages.length;
+    }, 500);
+}
+function startDialogueLoop() { intervalId = setInterval(showMessage, 3000); }
+function stopDialogueLoop() { clearInterval(intervalId); }
+window.onload = () => {
+    dialogue.style.opacity = 1;
+    dialogue.style.animation = 'pop 0.4s ease';
+    setTimeout(() => { dialogue.style.animation = ''; }, 400);
+    startDialogueLoop();
+};
+photoSection.addEventListener("mouseenter", stopDialogueLoop);
+photoSection.addEventListener("mouseleave", startDialogueLoop);
+</script>
+
+</body>
+</html>

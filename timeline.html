@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storyline</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 25%, #4a90e2 50%, #7bb3ff 75%, #a8d5ff 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.back-button {
+    position: fixed;
+    top: 40px;
+    left: 30px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #0773e0, #63b3ff);
+    color: white;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+.back-button:hover { filter: brightness(1.2); }
+.back-button:active { transform: translateY(2px); }
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.container {
+    width: 100%;
+    max-width: 1300px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 60px 40px;
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+/* Timeline wrapper with animated connecting line */
+.timeline-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 60px;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+}
+.timeline-wrapper::-webkit-scrollbar { display: none; }
+
+.timeline-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.3);
+    z-index: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: drawLine 1s forwards;
+}
+
+/* Timeline items with hover effects */
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    transition: transform 0.3s, filter 0.3s;
+    cursor: pointer;
+    max-width: 220px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+.timeline-item:hover {
+    transform: translateY(-10px) scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.6));
+}
+
+/* Year circle with glow effect */
+.year-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin-bottom: 15px;
+    border: 3px solid white;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.year-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.year-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255,255,255,0.7);
+    animation: pulse 1.5s infinite;
+}
+
+/* Labels and description */
+.year-label {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+.description {
+    color: white;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    width: 100%;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 25px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    animation: slideIn 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.zoom-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    transform: scale(0.7);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.modal.show .zoom-image {
+    transform: scale(1);
+    opacity: 1;
+}
+.modal-content h2 { margin-bottom: 10px; font-size: 2rem; text-align: center; }
+.modal-content p { font-size: 1rem; color: #333; text-align: center; }
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Animations */
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes slideIn { from {transform: translateY(-20px);} to {transform: translateY(0);} }
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 25px rgba(255,255,255,0.7); }
+    50% { box-shadow: 0 0 35px rgba(255,255,255,1); }
+}
+@keyframes drawLine {
+    to { transform: scaleX(1); }
+}
+
+</style>
+</head>
+<body>
+
+<a href="javascript:history.back()" class="back-button">&larr; Back</a>
+<br> <br><br></body><br>
+<h1>STORYLINE</h1>
+
+<div class="container">
+    <div class="timeline-wrapper">
+        <div class="timeline-item" data-year="2003" data-img="me1.jpg.jpg" data-name="Me 2003">
+            <div class="year-circle"><img src="me1.jpg.jpg" alt="2003"></div>
+            <div class="year-label">2003</div>
+            <div class="description">I was born on July 1st, 2003.</div>
+        </div>
+        <div class="timeline-item" data-year="2015" data-img="me2.jpg.jpg" data-name="Me 2015">
+            <div class="year-circle"><img src="me2.jpg.jpg" alt="2015"></div>
+            <div class="year-label">2010-2016</div>
+            <div class="description">I completed my education at Pani and Ipil Elementary School (PIES) in 2015.</div>
+        </div>
+        <div class="timeline-item" data-year="2021" data-img="me3.jpg.jpg" data-name="Me 2021">
+            <div class="year-circle"><img src="me3.jpg.jpg" alt="2021"></div>
+            <div class="year-label">2020-2022</div>
+            <div class="description">I completed my education at Balasan National High School (BNHS) in 2021.</div>
+        </div>
+        <div class="timeline-item" data-year="2025" data-img="me4.jpg.jpg" data-name="Me 2025">
+            <div class="year-circle"><img src="me4.jpg.jpg" alt="2025"></div>
+            <div class="year-label">2022-2025</div>
+            <div class="description">I'm presently pursuing a college degree in information technology a web development major at Northern Iloilo State University (NISU).</div>
+        </div>
+    </div>
+</div>
+
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <img src="" alt="Profile Image" id="modalImg" class="zoom-image">
+        <h2 id="modalName"></h2>
+        <p id="modalYear"></p>
+        <p id="modalDesc"></p>
+    </div>
+</div>
+
+<script>
+const modal = document.getElementById('profileModal');
+const modalImg = document.getElementById('modalImg');
+const modalName = document.getElementById('modalName');
+const modalYear = document.getElementById('modalYear');
+const modalDesc = document.getElementById('modalDesc');
+const closeBtn = document.querySelector('.close');
+
+document.querySelectorAll('.timeline-item').forEach(item => {
+    item.addEventListener('click', () => {
+        modal.style.display = 'flex';
+        modal.classList.remove('show');
+        modalImg.src = item.dataset.img;
+        modalName.textContent = item.dataset.name;
+        modalYear.textContent = `Year: ${item.dataset.year}`;
+        modalDesc.textContent = item.dataset.desc;
+        setTimeout(() => { modal.classList.add('show'); }, 50);
+    });
+});
+
+closeBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+    setTimeout(() => { modal.style.display = 'none'; }, 300);
+});
+
+window.addEventListener('click', e => {
+    if(e.target == modal){
+        modal.classList.remove('show');
+        setTimeout(() => { modal.style.display = 'none'; }, 300);
+    }
+});
+</script>
+
+</body>
+</html>

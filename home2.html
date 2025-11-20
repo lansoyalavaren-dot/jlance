@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homepage</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Georgia', serif;
+        background: linear-gradient(135deg, #e8eef2 0%, #f5f7fa 100%);
+        min-height: 100vh;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 60px 40px; }
+    .hero { display: flex; align-items: center; justify-content: space-between; gap: 60px; position: relative; }
+
+    .content { flex: 1; max-width: 500px; animation: slideInLeft 1s ease-out; }
+    h1 { font-size: 4rem; color: #245585; margin-bottom: 20px; line-height: 1.1; font-weight: 400; animation: fadeIn 1.2s ease-out; }
+    .accent { width: 350px; height: 4px; background: linear-gradient(90deg, #f19967 0%, #e67e22 100%); margin: 30px 0; animation: slideInLeft 1.4s ease-out; }
+    .tagline { font-size: 1.15rem; color: #4a5568; line-height: 1.7; margin-bottom: 40px; font-family: 'Arial', sans-serif; animation: fadeIn 1.6s ease-out; }
+
+    /* Glassy 3D Modern Blue Button */
+    .cta-button {
+        display: inline-block; 
+        padding: 16px 40px;
+        font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+        border-radius: 50px;
+        text-decoration: none;
+        color: white;
+        background: linear-gradient(135deg, rgba(20, 119, 207, 0.85) 0%, rgba(46, 53, 174, 0.85) 100%);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 8px 25px rgba(0, 188, 212, 0.3), 0 4px 10px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        background: linear-gradient(135deg, rgba(0,242,254,0.9) 0%, rgba(79,172,254,0.9) 100%);
+        box-shadow: 0 12px 30px rgba(0, 188, 212, 0.5), 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .image-section { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; animation: slideInRight 1s ease-out; }
+    .image-wrapper { position: relative; width: 450px; height: 450px; }
+
+    /* Circular glowing frame with synchronized pulsating */
+    .image-wrapper::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        /* Base glow */
+        box-shadow: 0 0 40px rgba(9, 48, 164, 0.8), 0 0 60px rgba(43, 4, 219, 0.5);
+        /* Animate the glow in sync with floating */
+        animation: pulseFloat 6s ease-in-out infinite alternate;
+        transition: 0.4s ease;
+    }
+
+    .image-wrapper:hover::before {
+        /* more intense glow on hover */
+        box-shadow: 0 0 70px rgb(25, 11, 160), 0 0 100px rgba(0,188,212,0.8);
+    }
+
+    /* Pulsating glow synchronized with floating */
+    @keyframes pulseFloat {
+        0% {
+            box-shadow: 0 0 35px rgba(0,188,212,0.7), 0 0 55px rgba(0,188,212,0.45);
+        }
+        25% {
+            box-shadow: 0 0 50px rgba(0,188,212,0.85), 0 0 75px rgba(0,188,212,0.6);
+        }
+        50% {
+            box-shadow: 0 0 45px rgba(0,188,212,0.8), 0 0 70px rgba(0,188,212,0.55);
+        }
+        75% {
+            box-shadow: 0 0 50px rgba(0,188,212,0.85), 0 0 75px rgba(0,188,212,0.6);
+        }
+        100% {
+            box-shadow: 0 0 40px rgba(0,188,212,0.8), 0 0 60px rgba(0,188,212,0.5);
+        }
+    }
+
+    /* Logo as circular background */
+    .logo-img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.12);
+        z-index: 1;
+        animation: float-sync 6s ease-in-out infinite;
+        transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Professional profile */
+    .profile-image {
+        position: absolute; width: 85%; height: 85%; border-radius: 50%; object-fit: cover;
+        top: 50%; left: 50%; transform: translate(-50%,-50%);
+        z-index: 2;
+        transition: transform 0.4s ease;
+        animation: float-sync 6s ease-in-out infinite;
+    }
+
+    .profile-image:hover { transform: translate(-50%, -50%) scale(1.05); }
+
+    /* Floating animation */
+    @keyframes float-sync {
+        0%, 100% { transform: translateY(0); }
+        25% { transform: translate(5px, -5px); }
+        50% { transform: translateY(-10px); }
+        75% { transform: translate(-5px, -5px); }
+    }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideInLeft { from{opacity:0;transform:translateX(-50px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(50px)} to{opacity:1;transform:translateX(0)} }
+
+    /* Responsive */
+    @media (max-width: 968px) { 
+        .hero { flex-direction: column; text-align: center; gap: 40px; } 
+        h1 { font-size: 3rem; } 
+        .content { max-width: 100%; } 
+        .image-wrapper { width: 350px; height: 350px; } 
+    }
+    @media (max-width: 768px) { 
+        .container { padding: 40px 30px; } 
+        h1 { font-size: 2.5rem; } 
+        .tagline { font-size: 1.05rem; } 
+        .image-wrapper { width: 320px; height: 320px; } 
+        .cta-button { padding: 14px 35px; font-size: 0.95rem; } 
+    }
+    @media (max-width: 480px) { 
+        .container { padding: 30px 20px; } 
+        h1 { font-size: 2rem; } 
+        .tagline { font-size: 1rem; } 
+        .image-wrapper { width: 280px; height: 280px; } 
+        .cta-button { padding: 12px 30px; font-size: 0.9rem; } 
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <div class="content">
+            <h1>Jerry Lance V.<br>Alavaren</h1>
+            <div class="accent"></div>
+            <p class="tagline">We shape and activate brands through insight, vision and execution.</p>
+            <a href="aboutme.html" class="cta-button">About Me</a>
+        </div>
+
+        <div class="image-section">
+            <div class="image-wrapper">
+                <!-- Logo circular background -->
+                <img src="lans1.jpg.jpg" class="logo-img" alt="Logo Background">
+                <!-- Professional profile -->
+                <img src="logo.png.png" class="profile-image" alt="Professional Portrait">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
